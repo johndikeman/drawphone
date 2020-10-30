@@ -43,7 +43,8 @@ module.exports = function(app) {
 				thisGame.startNewRound(
 					data.timeLimit,
 					data.wordPackName,
-					data.showNeighbors
+					data.showNeighbors,
+					data.extraRounds
 				);
 			}
 		});

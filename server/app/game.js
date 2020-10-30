@@ -83,6 +83,8 @@ Game.prototype.removeBotPlayer = function() {
 };
 
 Game.prototype.sendUpdatedSettings = function(setting) {
+	console.log(setting);
+
 	this.sendToAll("updateSettings", {
 		setting,
 		canViewLastRoundResults:
@@ -228,7 +230,8 @@ Game.prototype.sendToAll = function(event, data) {
 Game.prototype.startNewRound = function(
 	timeLimit,
 	wordPackName,
-	showNeighbors
+	showNeighbors,
+	extraRounds
 ) {
 	this.inProgress = true;
 
@@ -239,6 +242,7 @@ Game.prototype.startNewRound = function(
 		timeLimit,
 		wordPackName,
 		showNeighbors,
+		extraRounds,
 		function() {
 			//ran when results are sent
 			self.inProgress = false;

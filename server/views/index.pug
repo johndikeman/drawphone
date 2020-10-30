@@ -85,6 +85,8 @@ block content
           .custom-control.custom-switch
             input#lobby-settings-showNeighbors.custom-control-input.lobby-setting(type='checkbox')
             label.custom-control-label(for='lobby-settings-showNeighbors') Show who players are passing to and from
+          input#extra-rounds(type='text', name='extra rounds', value='0')
+          label.custom-control-label(for='extra-rounds') Extra rounds?
         .btn-toolbar.mb-3#lobby-settings-bots.d-none
           button#lobby-settings-addbot.btn.btn-default.mr-2(type='button') Add Bot
           button#lobby-settings-removebot.btn.btn-default(type='button') Remove Bot

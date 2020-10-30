@@ -56,6 +56,7 @@ Chain.prototype.sendLastLinkToThen = function(player, finalCount, next) {
 	} else {
 		finalCount--;
 	}
+	console.log("count: " + count);
 	//sends the link, then runs the second function
 	//  when the 'finishedLink' event is received
 	player.sendThen(

@@ -20,6 +20,7 @@ function Round(
 	timeLimit,
 	wordPackName,
 	showNeighbors,
+	extraRounds,
 	onResults
 ) {
 	this.number = number;
@@ -32,6 +33,7 @@ function Round(
 	this.disconnectedPlayers = [];
 	this.canViewLastRoundResults = false;
 	this.isWordFirstGame = !this.wordPackName;
+	this.extraRounds = extraRounds;
 
 	if (this.isWordFirstGame) {
 		this.shouldHaveThisManyLinks = 1;
@@ -47,7 +49,8 @@ function Round(
 }
 
 Round.prototype.start = function() {
-	this.finalNumOfLinks = this.players.length;
+	console.log("extraRounds in Round start(): " + this.extraRounds);
+	this.finalNumOfLinks = this.players.length + this.extraRounds;
 	this.aiGuessQueue.reset();
 
 	// demo mode

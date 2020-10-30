@@ -362,12 +362,14 @@ function Lobby() {
 	this.addBotButton = $("#lobby-settings-addbot");
 	this.removeBotButton = $("#lobby-settings-removebot");
 	this.viewPreviousResultsButton = $("#lobby-prevres");
+	this.extraRoundsInput = $("#extra-rounds");
 	this.gameCode = "";
 
 	//this is what the host selects from the dropdowns
 	this.selectedTimeLimit = 0;
 	this.wordPack = false;
 	this.showNeighbors = false;
+	this.extraRounds = 0;
 
 	this.userList = new UserList($("#lobby-players"));
 }
@@ -471,6 +473,12 @@ Lobby.prototype.update = function(res) {
 		this.userList.update(res.data.players);
 	}
 	this.checkIfReadyToStart();
+	if (res.event === "updateSettings") {
+		if (res.data.setting.name === "extraRounds") {
+			this.extraRounds = res.data.setting.value;
+			console.log("extrarounds in Lobby.update(): " + this.extraRounds);
+		}
+	}
 
 	if (res.player.isHost) {
 		//show the start game button
@@ -655,6 +663,15 @@ Lobby.prototype.initHost = function() {
 		socket.emit("addBotPlayer");
 	});
 
+	this.extraRoundsInput.on("change", event => {
+		this.extraRounds = parseInt(event.target.value);
+		console.log("client rounds: " + this.extraRounds);
+		socket.emit("hostUpdatedSettings", {
+			name: "extraRounds",
+			value: parseInt(event.target.value)
+		});
+	});
+
 	this.removeBotButton.on("click", () => socket.emit("removeBotPlayer"));
 };
 
@@ -679,7 +696,8 @@ Lobby.prototype.start = function() {
 	socket.emit("tryStartGame", {
 		timeLimit: this.selectedTimeLimit,
 		wordPackName: this.wordPack,
-		showNeighbors: this.showNeighbors
+		showNeighbors: this.showNeighbors,
+		extraRounds: this.extraRounds
 	});
 	ga("send", "event", "Game", "start");
 	ga("send", "event", "Game", "time limit", this.selectedTimeLimit);
@@ -693,6 +711,7 @@ Lobby.prototype.start = function() {
 		"number of total players",
 		this.userList.numberOfPlayers
 	);
+	ga("send", "event", "Game", "extra rounds", this.extraRounds);
 };
 
 Game.prototype = Object.create(Screen.prototype);

@@ -63,3 +63,6 @@ typings/
 # Credentials
 .travis/*.key
 .travis/*.key.pub
+
+# macos development :)
+.DS_Store
